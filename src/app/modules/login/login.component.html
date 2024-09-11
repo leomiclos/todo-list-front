@@ -1,0 +1,74 @@
+<body>
+  <mat-card-content class="container">
+    <mat-card class="card-login">
+      <div id="particles-js" class="particles-container">
+        <div class="text-center p-5">
+          <mat-card-title>Lista de Tarefas</mat-card-title>
+        </div>
+        <div class="header">
+          <mat-card-title>{{ title }}</mat-card-title>
+
+          <mat-slide-toggle
+            color="primary"
+            (change)="toggleForm($event)"
+            [checked]="isRegisterMode"
+          >
+            {{ isRegisterMode ? "Voltar para Login" : "Ir para Registro" }}
+          </mat-slide-toggle>
+        </div>
+
+        <form [formGroup]="formLogin" novalidate *ngIf="!isRegisterMode">
+          <mat-card-content class="conteudo-login">
+            <mat-form-field appearance="outline" class="form-field-full">
+              <mat-label>Usuário</mat-label>
+              <input
+                type="text"
+                matInput
+                formControlName="user"
+                placeholder="jon.doe"
+              />
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="form-field-full">
+              <mat-label>Senha</mat-label>
+              <input type="password" matInput formControlName="senha" />
+            </mat-form-field>
+          </mat-card-content>
+          <mat-card-actions align="end">
+            <button  mat-raised-button color="primary" class="full" (click)="logar()">
+              Entrar
+            </button>
+          </mat-card-actions>
+        </form>
+
+        <form [formGroup]="formRegister" novalidate *ngIf="isRegisterMode">
+          <mat-card-content class="conteudo-login">
+            <mat-form-field appearance="outline" class="form-field-full">
+              <mat-label>Usuário</mat-label>
+              <input
+                type="user"
+                matInput
+                formControlName="user"
+                placeholder="jane.doe"
+              />
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="form-field-full">
+              <mat-label>Senha</mat-label>
+              <input type="password" matInput formControlName="senha" />
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="form-field-full">
+              <mat-label>Confirmar Senha</mat-label>
+              <input type="password" matInput formControlName="confirmSenha" />
+            </mat-form-field>
+          </mat-card-content>
+          <mat-card-actions align="end">
+            <button  mat-raised-button color="primary" class="full" (click)="registrar()">
+              Registrar
+            </button>
+          </mat-card-actions>
+        </form>
+      </div>
+      <span class="text-center fs-6">Projeto desenvolvido por: Leonardo Miclos</span>
+
+    </mat-card>
+  </mat-card-content>
+</body>
