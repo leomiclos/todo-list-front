@@ -10,6 +10,7 @@ import { MatInputModule } from '@angular/material/input';
 import Swal from 'sweetalert2'
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import {MatButtonModule} from '@angular/material/button';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -31,7 +32,8 @@ export class LoginComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private usuarioService: UsuarioService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private router: Router
   ) {}
   ngOnInit(): void {
     this.criarForm();
@@ -71,14 +73,14 @@ export class LoginComponent implements OnInit {
 
   criarForm() {
     this.formLogin = this.formBuilder.group({
-      user: ['', [Validators.required, Validators.email]],
-      senha: ['', [Validators.required]],
+      username: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required]],
     });
 
     this.formRegister = this.formBuilder.group({
-      user: ['', [Validators.required, Validators.email]],
-      senha: ['', [Validators.required]],
-      confirmSenha: ['', [Validators.required]]
+      username: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required]],
+      confirmPassword: ['', [Validators.required]]
     }, { validator: this.senhasDevemConcordar });
   }
 
@@ -96,46 +98,47 @@ export class LoginComponent implements OnInit {
 
 
   registrar() {
-    if (this.formRegister.invalid) return;
+    // if (this.formRegister.invalid) return;
 
     const usuario = this.formRegister.getRawValue();
+    console.log(usuario);
+
     this.usuarioService.registrar(usuario).subscribe((response) => {
-      if (response.sucesso) {
         Swal.fire({
           title: 'Cadastro realizado com sucesso!',
           text: 'Você pode agora fazer o login.',
           icon: 'success',
           confirmButtonText: 'Ok',
         });
-      } else {
-        this.snackBar.open(
-          'Falha no cadastro',
-          'Por favor, tente novamente.',
-          {
-            duration: 3000,
-          }
-        );
-      }
-    });
+        this.isRegisterMode = false;
+
+    },
+    (error) => {
+      Swal.fire({
+        title: 'Erro ao realizar cadastro.',
+        text: 'Verifique se os campos estão preenchidos corretamente.',
+        icon: 'error',
+        confirmButtonText: 'Ok',
+      })
+    }
+  );
   }
 
   logar() {
-    if (this.formLogin.invalid) return;
-
-
-    var usuario = this.formLogin.getRawValue()
-
+    const usuario = this.formLogin.getRawValue()
 
     this.usuarioService.login(usuario).subscribe((response) => {
-      if (!response.sucesso) {
-        this.snackBar.open(
-          'Falha na autenticação',
-          'Usuário ou senha incorretos.',
-          {
-            duration: 3000,
-          }
-        );
+      console.log(response);
+      if(response){
+        Swal.fire({
+          title: 'Login realizado com sucesso!',
+          text: 'Você pode agora acessar o sistema.',
+          icon: 'success',
+          confirmButtonText: 'Ok',
+        })
+        this.router.navigate(['pages/list'])
       }
+
     });
   }
 }
