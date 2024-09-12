@@ -98,10 +98,7 @@ export class LoginComponent implements OnInit {
 
 
   registrar() {
-    // if (this.formRegister.invalid) return;
-
     const usuario = this.formRegister.getRawValue();
-    console.log(usuario);
 
     this.usuarioService.registrar(usuario).subscribe((response) => {
         Swal.fire({
@@ -128,7 +125,6 @@ export class LoginComponent implements OnInit {
     const usuario = this.formLogin.getRawValue()
 
     this.usuarioService.login(usuario).subscribe((response) => {
-      console.log(response);
       if(response){
         Swal.fire({
           title: 'Login realizado com sucesso!',

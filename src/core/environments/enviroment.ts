@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  API_URI: 'http://18.231.158.234:443'
+  API_URI: 'https://todo-back-n7h7.onrender.com'
 }
 
 // export const environment = {
