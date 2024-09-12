@@ -16,13 +16,11 @@ export class UsuarioService {
   apiUri = environment.API_URI
 
   login(user: any){
-    console.log(user);
-
     return this.httpClient.post<any>(`${this.apiUri}/api/login`, user)
   }
 
   registrar(user: any){
-    return this.httpClient.post<any>(`${this.apiUri}/api/register`, {user})
+    return this.httpClient.post<any>(`${this.apiUri}/api/register`, user)
   }
 
 }
